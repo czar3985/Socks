@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>Product App</title>
+</head>
+<body>
+<div class="nav-bar"></div>
+<div id="app">
+    <div class="product">
+        <div class="product-image">
+            <img v-bind:src="image" v-bind:alt="altText"/>
+        </div>
+        <div class="product-info">
+            <h1>{{ title }}</h1>
+            <p>{{ description }}</p>
+            <p class="itemInStock" v-if="inventory > 10">In Stock</p>
+            <p class="itemAlmostOut" v-else-if="inventory <=10 && inventory > 0">Almost out!</p>
+            <p class="itemOutOfStock" v-else>Out of Stock</p>
+            <p v-show="onSale">On Sale!</p>
+            <a :href="link" target="_blank">More products like this</a>
+            <p>Description</p>
+            <ul>
+                <li v-for="detail in details">{{ detail }}</li>
+            </ul>
+            <p>Sizes available</p>
+            <ul>
+                <li v-for="size in sizes">{{ size }}</li>
+            </ul>
+            <p>Colors available (Hover to preview)</p>
+            <div v-for="variant in variants" 
+                 :key="variant.variantId"
+                 class="color-box"
+                 :style="{ backgroundColor: variant.variantColor}"
+                 @mouseover="updateProduct(variant.variantImage)">
+            </div>
+            <button v-on:click="addToCart"
+                    :class="[inventory == 0 ? 'disabledButton' : '']">Add to Cart</button>
+            <button @click="removeFromCart"
+                    :class="[cart == 0 ? 'disabledButton' : '']">Remove from cart</button>
+            <div class="cart">
+                <p>Cart({{cart}})</p>
+            </div>
+        </div>
+        
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="main.js"></script>
+</body>
+</html>
